@@ -109,6 +109,12 @@ public class NovaView extends View {
 		this.stale = stale;
 	}
 
+	/* The default implementation expects a String parameter although
+	 * only integer values are accepted by CouchDB */
+	public void setSkip(int skip) {
+		super.setSkip(String.valueOf(skip));
+	}
+
 	@Override
 	public String getQueryString() {
 		final String tempQuery = super.getQueryString();
