@@ -43,10 +43,11 @@ import de.thm.arsnova.exceptions.NoContentException;
 import de.thm.arsnova.exceptions.NotFoundException;
 import de.thm.arsnova.services.IQuestionService;
 import de.thm.arsnova.web.DeprecatedApi;
+import de.thm.arsnova.web.Pagination;
 
 @RestController
 @RequestMapping("/lecturerquestion")
-public class LecturerQuestionController extends AbstractController {
+public class LecturerQuestionController extends PaginationController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(LecturerQuestionController.class);
 
@@ -97,6 +98,7 @@ public class LecturerQuestionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/publish", method = RequestMethod.POST)
+	@Pagination
 	public void publishAllQuestions(
 			@RequestParam final String sessionkey,
 			@RequestParam(required = false) final Boolean publish,
@@ -111,10 +113,10 @@ public class LecturerQuestionController extends AbstractController {
 		}
 
 		if (lectureQuestionsOnly) {
-			questions = questionService.getLectureQuestions(sessionkey);
+			questions = questionService.getLectureQuestions(sessionkey, -1, -1);
 			questionService.publishQuestions(sessionkey, publish, questions);
 		} else if (preparationQuestionsOnly) {
-			questions = questionService.getPreparationQuestions(sessionkey);
+			questions = questionService.getPreparationQuestions(sessionkey, -1, -1);
 			questionService.publishQuestions(sessionkey, publish, questions);
 		} else {
 			questionService.publishAll(sessionkey, p);
@@ -146,6 +148,7 @@ public class LecturerQuestionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@Pagination
 	public List<Question> getSkillQuestions(
 			@RequestParam final String sessionkey,
 			@RequestParam(value = "lecturequestionsonly", defaultValue = "false") final boolean lectureQuestionsOnly,
@@ -155,13 +158,13 @@ public class LecturerQuestionController extends AbstractController {
 			) {
 		List<Question> questions;
 		if (lectureQuestionsOnly) {
-			questions = questionService.getLectureQuestions(sessionkey);
+			questions = questionService.getLectureQuestions(sessionkey, offset, limit);
 		} else if (flashcardsOnly) {
-			questions = questionService.getFlashcards(sessionkey);
+			questions = questionService.getFlashcards(sessionkey, offset, limit);
 		} else if (preparationQuestionsOnly) {
-			questions = questionService.getPreparationQuestions(sessionkey);
+			questions = questionService.getPreparationQuestions(sessionkey, offset, limit);
 		} else {
-			questions = questionService.getSkillQuestions(sessionkey);
+			questions = questionService.getSkillQuestions(sessionkey, offset, limit);
 		}
 		if (questions == null || questions.isEmpty()) {
 			response.setStatus(HttpStatus.NO_CONTENT.value());
@@ -389,8 +392,9 @@ public class LecturerQuestionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/{questionId}/freetextanswer/", method = RequestMethod.GET)
+	@Pagination
 	public List<Answer> getFreetextAnswers(@PathVariable final String questionId) {
-		return questionService.getFreetextAnswers(questionId);
+		return questionService.getFreetextAnswers(questionId, offset, limit);
 	}
 
 	@DeprecatedApi

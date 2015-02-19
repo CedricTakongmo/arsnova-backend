@@ -108,7 +108,7 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<Session> getMySessions(final User user) {
+	public List<Session> getMySessions(final User user, final int start, final int limit) {
 		final NovaView view = new NovaView("session/by_creator");
 		view.setStartKeyArray(user.getUsername());
 		view.setEndKeyArray(user.getUsername(), "{}");
@@ -186,8 +186,8 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<SessionInfo> getMySessionsInfo(final User user) {
-		final List<Session> sessions = this.getMySessions(user);
+	public List<SessionInfo> getMySessionsInfo(final User user, final int start, final int limit) {
+		final List<Session> sessions = this.getMySessions(user, start, limit);
 		if (sessions.isEmpty()) {
 			return new ArrayList<SessionInfo>();
 		}
@@ -363,14 +363,14 @@ public class CouchDBDao implements IDatabaseDao {
 
 	@Cacheable("skillquestions")
 	@Override
-	public List<Question> getSkillQuestionsForUsers(final Session session) {
+	public List<Question> getSkillQuestionsForUsers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/by_session_for_all_full";
 		return getQuestions(new NovaView(viewName), session);
 	}
 
 	@Cacheable("skillquestions")
 	@Override
-	public List<Question> getSkillQuestionsForTeachers(final Session session) {
+	public List<Question> getSkillQuestionsForTeachers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/by_session_sorted_by_subject_and_text";
 		return getQuestions(new NovaView(viewName), session);
 	}
@@ -881,7 +881,7 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<Answer> getFreetextAnswers(final String questionId) {
+	public List<Answer> getFreetextAnswers(final String questionId, final int start, final int limit) {
 		final List<Answer> answers = new ArrayList<Answer>();
 		final NovaView view = new NovaView("skill_question/freetext_answers_full");
 		view.setKey(questionId);
@@ -1013,7 +1013,7 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<InterposedQuestion> getInterposedQuestions(final Session session) {
+	public List<InterposedQuestion> getInterposedQuestions(final Session session, final int start, final int limit) {
 		final NovaView view = new NovaView("interposed_question/by_session_full");
 		view.setKey(session.get_id());
 		final ViewResults questions = getDatabase().view(view);
@@ -1024,7 +1024,7 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<InterposedQuestion> getInterposedQuestions(final Session session, final User user) {
+	public List<InterposedQuestion> getInterposedQuestions(final Session session, final User user, final int start, final int limit) {
 		final NovaView view = new NovaView("interposed_question/by_session_and_creator");
 		view.setKey(session.get_id(), user.getUsername());
 		final ViewResults questions = getDatabase().view(view);
@@ -1144,7 +1144,7 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<Session> getMyVisitedSessions(final User user) {
+	public List<Session> getMyVisitedSessions(final User user, final int start, final int limit) {
 		final NovaView view = new NovaView("logged_in/visited_sessions_by_user");
 		view.setKey(user.getUsername());
 		final ViewResults sessions = getDatabase().view(view);
@@ -1204,8 +1204,8 @@ public class CouchDBDao implements IDatabaseDao {
 	}
 
 	@Override
-	public List<SessionInfo> getMyVisitedSessionsInfo(final User user) {
-		List<Session> sessions = this.getMyVisitedSessions(user);
+	public List<SessionInfo> getMyVisitedSessionsInfo(final User user, final int start, final int limit) {
+		List<Session> sessions = this.getMyVisitedSessions(user, start, limit);
 		if (sessions.isEmpty()) {
 			return new ArrayList<SessionInfo>();
 		}
@@ -1369,39 +1369,39 @@ public class CouchDBDao implements IDatabaseDao {
 
 	@Cacheable("lecturequestions")
 	@Override
-	public List<Question> getLectureQuestionsForUsers(final Session session) {
+	public List<Question> getLectureQuestionsForUsers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/lecture_question_by_session_for_all";
 		return getQuestions(new NovaView(viewName), session);
 	}
 
 	@Override
-	public List<Question> getLectureQuestionsForTeachers(final Session session) {
+	public List<Question> getLectureQuestionsForTeachers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/lecture_question_by_session";
 		return getQuestions(new NovaView(viewName), session);
 	}
 
 	@Cacheable("flashcardquestions")
 	@Override
-	public List<Question> getFlashcardsForUsers(final Session session) {
+	public List<Question> getFlashcardsForUsers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/flashcard_by_session_for_all";
 		return getQuestions(new NovaView(viewName), session);
 	}
 
 	@Override
-	public List<Question> getFlashcardsForTeachers(final Session session) {
+	public List<Question> getFlashcardsForTeachers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/flashcard_by_session";
 		return getQuestions(new NovaView(viewName), session);
 	}
 
 	@Cacheable("preparationquestions")
 	@Override
-	public List<Question> getPreparationQuestionsForUsers(final Session session) {
+	public List<Question> getPreparationQuestionsForUsers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/preparation_question_by_session_for_all";
 		return getQuestions(new NovaView(viewName), session);
 	}
 
 	@Override
-	public List<Question> getPreparationQuestionsForTeachers(final Session session) {
+	public List<Question> getPreparationQuestionsForTeachers(final Session session, final int start, final int limit) {
 		String viewName = "skill_question/preparation_question_by_session";
 		return getQuestions(new NovaView(viewName), session);
 	}

@@ -38,9 +38,9 @@ public interface ISessionService {
 
 	String generateKeyword();
 
-	List<Session> getMySessions();
+	List<Session> getMySessions(int offset, int limit);
 
-	List<Session> getMyVisitedSessions();
+	List<Session> getMyVisitedSessions(int offset, int limit);
 
 	int countSessions(List<Course> courses);
 
@@ -60,13 +60,13 @@ public interface ISessionService {
 
 	SimpleEntry<Integer, Integer> getMyLearningProgress(String sessionkey, String progressType);
 
-	List<SessionInfo> getMySessionsInfo();
+	List<SessionInfo> getMySessionsInfo(int offset, int limit);
 
 	List<SessionInfo> getPublicPoolSessionsInfo();
 
 	List<SessionInfo> getMyPublicPoolSessionsInfo();
 
-	List<SessionInfo> getMyVisitedSessionsInfo();
+	List<SessionInfo> getMyVisitedSessionsInfo(int offset, int limit);
 
 	SessionInfo importSession(ImportExportSession session);
 }

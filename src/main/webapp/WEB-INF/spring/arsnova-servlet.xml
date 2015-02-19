@@ -12,7 +12,7 @@
 
 	<!-- ARSnova Servlet Context -->
 
-	<context:component-scan base-package="de.thm.arsnova.controller,de.thm.arsnova.web" />
+	<context:component-scan base-package="de.thm.arsnova.aop,de.thm.arsnova.controller,de.thm.arsnova.web" />
 
 	<mvc:annotation-driven
 		content-negotiation-manager="mvcContentNegotiationManager" />
@@ -21,6 +21,8 @@
 		<bean class="de.thm.arsnova.web.CacheControlInterceptorHandler" />
 		<bean class="de.thm.arsnova.web.DeprecatedApiInterceptorHandler" />
 	</mvc:interceptors>
+
+	<aop:aspectj-autoproxy />
 
 	<bean id="propertyPlaceholderConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"

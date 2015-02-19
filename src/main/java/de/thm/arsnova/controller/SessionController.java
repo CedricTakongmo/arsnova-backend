@@ -51,10 +51,11 @@ import de.thm.arsnova.services.SessionService.SessionInfoShortNameComparator;
 import de.thm.arsnova.services.SessionService.SessionNameComparator;
 import de.thm.arsnova.services.SessionService.SessionShortNameComparator;
 import de.thm.arsnova.web.DeprecatedApi;
+import de.thm.arsnova.web.Pagination;
 
 @RestController
 @RequestMapping("/session")
-public class SessionController extends AbstractController {
+public class SessionController extends PaginationController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(SessionController.class);
 
@@ -115,6 +116,7 @@ public class SessionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@Pagination
 	public List<Session> getSessions(
 			@RequestParam(value = "ownedonly", defaultValue = "false") final boolean ownedOnly,
 			@RequestParam(value = "visitedonly", defaultValue = "false") final boolean visitedOnly,
@@ -126,9 +128,9 @@ public class SessionController extends AbstractController {
 		/* TODO implement all parameter combinations, implement use of user parameter */
 		try {
 			if (ownedOnly && !visitedOnly) {
-				sessions = sessionService.getMySessions();
+				sessions = sessionService.getMySessions(offset, limit);
 			} else if (visitedOnly && !ownedOnly) {
-				sessions = sessionService.getMyVisitedSessions();
+				sessions = sessionService.getMyVisitedSessions(offset, limit);
 			} else {
 				response.setStatus(HttpStatus.NOT_IMPLEMENTED.value());
 				return null;
@@ -158,6 +160,7 @@ public class SessionController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET, params = "statusonly=true")
+	@Pagination
 	public List<SessionInfo> getMySessions(
 			@RequestParam(value = "visitedonly", defaultValue = "false") final boolean visitedOnly,
 			@RequestParam(value = "sortby", defaultValue = "name") final String sortby,
@@ -165,9 +168,9 @@ public class SessionController extends AbstractController {
 			) {
 		List<SessionInfo> sessions;
 		if (!visitedOnly) {
-			sessions = sessionService.getMySessionsInfo();
+			sessions = sessionService.getMySessionsInfo(offset, limit);
 		} else {
-			sessions = sessionService.getMyVisitedSessionsInfo();
+			sessions = sessionService.getMyVisitedSessionsInfo(offset, limit);
 		}
 
 		if (sessions == null || sessions.isEmpty()) {
