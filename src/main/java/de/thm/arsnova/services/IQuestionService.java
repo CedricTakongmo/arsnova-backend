@@ -33,7 +33,7 @@ public interface IQuestionService {
 
 	Question getQuestion(String id);
 
-	List<Question> getSkillQuestions(String sessionkey, int offset, int limit);
+	List<Question> getSkillQuestions(String sessionkey);
 
 	int getSkillQuestionCount(String sessionkey);
 
@@ -45,9 +45,9 @@ public interface IQuestionService {
 
 	Answer getMyAnswer(String questionId);
 
-	List<Answer> getAnswers(String questionId, int piRound);
+	List<Answer> getAnswers(String questionId, int piRound, int offset, int limit);
 
-	List<Answer> getAnswers(String questionId);
+	List<Answer> getAnswers(String questionId, int offset, int limit);
 
 	int getAnswerCount(String questionId);
 
@@ -79,11 +79,11 @@ public interface IQuestionService {
 
 	void deleteInterposedQuestion(String questionId);
 
-	List<Question> getLectureQuestions(String sessionkey, int offset, int limit);
+	List<Question> getLectureQuestions(String sessionkey);
 
-	List<Question> getFlashcards(String sessionkey, int offset, int limit);
+	List<Question> getFlashcards(String sessionkey);
 
-	List<Question> getPreparationQuestions(String sessionkey, int offset, int limit);
+	List<Question> getPreparationQuestions(String sessionkey);
 
 	int getLectureQuestionCount(String sessionkey);
 

@@ -369,30 +369,18 @@ public class CouchDBDao implements IDatabaseDao {
 
 	@Cacheable("skillquestions")
 	@Override
-	public List<Question> getSkillQuestionsForUsers(final Session session, final int start, final int limit) {
+	public List<Question> getSkillQuestionsForUsers(final Session session) {
 		String viewName = "skill_question/by_session_for_all_full";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
 
 	@Cacheable("skillquestions")
 	@Override
-	public List<Question> getSkillQuestionsForTeachers(final Session session, final int start, final int limit) {
+	public List<Question> getSkillQuestionsForTeachers(final Session session) {
 		String viewName = "skill_question/by_session_sorted_by_subject_and_text";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
@@ -1415,87 +1403,51 @@ public class CouchDBDao implements IDatabaseDao {
 
 	@Cacheable("lecturequestions")
 	@Override
-	public List<Question> getLectureQuestionsForUsers(final Session session, final int start, final int limit) {
+	public List<Question> getLectureQuestionsForUsers(final Session session) {
 		String viewName = "skill_question/lecture_question_by_session_for_all";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
 
 	@Override
-	public List<Question> getLectureQuestionsForTeachers(final Session session, final int start, final int limit) {
+	public List<Question> getLectureQuestionsForTeachers(final Session session) {
 		String viewName = "skill_question/lecture_question_by_session";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
 
 	@Cacheable("flashcardquestions")
 	@Override
-	public List<Question> getFlashcardsForUsers(final Session session, final int start, final int limit) {
+	public List<Question> getFlashcardsForUsers(final Session session) {
 		String viewName = "skill_question/flashcard_by_session_for_all";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
 
 	@Override
-	public List<Question> getFlashcardsForTeachers(final Session session, final int start, final int limit) {
+	public List<Question> getFlashcardsForTeachers(final Session session) {
 		String viewName = "skill_question/flashcard_by_session";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
 
 	@Cacheable("preparationquestions")
 	@Override
-	public List<Question> getPreparationQuestionsForUsers(final Session session, final int start, final int limit) {
+	public List<Question> getPreparationQuestionsForUsers(final Session session) {
 		String viewName = "skill_question/preparation_question_by_session_for_all";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
 
 	@Override
-	public List<Question> getPreparationQuestionsForTeachers(final Session session, final int start, final int limit) {
+	public List<Question> getPreparationQuestionsForTeachers(final Session session) {
 		String viewName = "skill_question/preparation_question_by_session";
 		NovaView view = new NovaView(viewName);
-		if (start > 0) {
-			view.setSkip(start);
-		}
-		if (limit > 0) {
-			view.setLimit(limit);
-		}
 
 		return getQuestions(view, session);
 	}
