@@ -249,4 +249,4 @@ The last step is to find your ARSnova configuration file (see step
 ## Credits
 
 ARSnova is powered by Technische Hochschule Mittelhessen - University of Applied
-Sciences.
+Sciences. 
