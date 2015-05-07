@@ -13,7 +13,7 @@ body > div > hr {
 }
 
 footer > div {
-	position: relative;
+	position: absolute; 
 }
 
 footer > div .row {
